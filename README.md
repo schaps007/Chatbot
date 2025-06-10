@@ -19,6 +19,12 @@ This is a simple chatbot API built with **FastAPI** and powered by **OpenAI's GP
 5. Run the server- uvicorn main:app --reload
 6. Test via Swagger UI- Open http://127.0.0.1:8000/docs and try out the /chat endpoint.
 
-### Code Flow and Modularization
-- `main.py`: Defines the FastAPI app, the /chat endpoint, and the message schema using pydantic. It handles POST requests and delegates chatbot logic.
-- `chatbot.py`: Loads the OpenAI API key using dotenv, creates an OpenAI client, and defines the `chatbot_response` function which generates replies using GPT.
+### Code Structure
+- `main.py` **(API Layer)**
+ - Defines the FastAPI app and /chat endpoint.
+ - Uses Pydantic to validate incoming messages.
+ - Delegates response generation to chatbot.py.
+- `chatbot.py` **(AI Service Layer)**
+ - Loads the OpenAI API key securely from .env.
+ - Implements the chatbot_response() function to interact with GPT.
+ - Handles errors (e.g., API failures)
