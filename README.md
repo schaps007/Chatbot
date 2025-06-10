@@ -20,11 +20,11 @@ This is a simple chatbot API built with **FastAPI** and powered by **OpenAI's GP
 6. Test via Swagger UI- Open http://127.0.0.1:8000/docs and try out the /chat endpoint.
 
 ### Code Structure
-- `main.py` **(API Layer)**
+1. `main.py` **(API Layer)**
  - Defines the FastAPI app and /chat endpoint.
  - Uses Pydantic to validate incoming messages.
  - Delegates response generation to chatbot.py.
-- `chatbot.py` **(AI Service Layer)**
+2. `chatbot.py` **(AI Service Layer)**
  - Loads the OpenAI API key securely from .env.
  - Implements the chatbot_response() function to interact with GPT.
  - Handles errors (e.g., API failures)
