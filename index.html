@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FastAPI Chatbot</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #fff;
+      margin-top: 40px;
+      padding: 20px 25px;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    #api-key {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #chatbox {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px;
+      height: 300px;
+      overflow-y: auto;
+      background-color: #fafafa;
+      margin-bottom: 15px;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 8px 12px;
+      border-radius: 12px;
+      display: inline-block;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+
+    .user {
+      background-color: #d6eaff;
+      align-self: flex-end;
+      text-align: right;
+      float: right;
+      clear: both;
+    }
+
+    .bot {
+      background-color: #e9ffe6;
+      align-self: flex-start;
+      text-align: left;
+      float: left;
+      clear: both;
+    }
+
+    #user-input {
+      width: 78%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-right: 2%;
+    }
+
+    #send-button {
+      width: 20%;
+      padding: 10px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    #send-button:hover {
+      background-color: #45a049;
+    }
+
+    @media screen and (max-width: 600px) {
+      #user-input, #send-button {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>FastAPI Chatbot</h2>
+    <input type="text" id="api-key" placeholder="🔑 OpenAI API Key" />
+    <div id="chatbox"></div>
+    <div style="display: flex; flex-wrap: wrap;">
+      <input type="text" id="user-input" placeholder="💬 Type a message..." />
+      <button id="send-button" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const chatbox = document.getElementById('chatbox');
+      const userInput = document.getElementById('user-input');
+      const apiKey = document.getElementById('api-key').value.trim();
+
+      const userMessage = userInput.value.trim();
+      if (!userMessage || !apiKey) return;
+
+      chatbox.innerHTML += `<div class="message user"><strong>You:</strong> ${userMessage}</div>`;
+      userInput.value = "";
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/chat", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({ message: userMessage })
+        });
+
+        const data = await response.json();
+        chatbox.innerHTML += `<div class="message bot"><strong>Bot:</strong> ${data.reply}</div>`;
+      } catch (error) {
+        chatbox.innerHTML += `<div class="message bot"><strong>Bot:</strong> Error: ${error.message}</div>`;
+      }
+
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
