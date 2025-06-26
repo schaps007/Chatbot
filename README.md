@@ -14,10 +14,9 @@ This is a simple chatbot API built with **FastAPI** and powered by **OpenAI's GP
 ### Getting Started
 1. Open a terminal window and clone the repository using git clone
 2. Navigate to the project directory by doing `cd Chatbot`
-3. Install any dependencies (pip install fastapi uvicorn python-dotenv openai)
-4. Create a .env file in the root directory and add your OpenAI API key: This is how it should look: OPENAI_API_KEY=(add your key here)
-5. Run the server- uvicorn main:app --reload
-6. Test via Swagger UI- Open http://127.0.0.1:8000/docs and try out the /chat endpoint.
+3. Install the necessary dependencies using the command `pip install -r requirements.txt`
+4. Run the server- `uvicorn main:app --reload`
+5. Open http://127.0.0.1:8000 and input the OpenAI API key at the top and then you can start sending messages to the chatbot.
 
 ### Code Structure
 1. `main.py` **(API Layer)**
